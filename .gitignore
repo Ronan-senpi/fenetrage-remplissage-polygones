@@ -30,4 +30,7 @@
 *.app
 
 # IDE
-.vs
+.vs/*
+FirstApp/.vs/*
+x64/*
+FirstApp/x64/*
