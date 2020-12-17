@@ -149,6 +149,10 @@
     <ClInclude Include="..\common\GLShader.h" />
     <ClInclude Include="FirstApp.h" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="glew32.dll" />
+    <None Include="glfw3.dll" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
