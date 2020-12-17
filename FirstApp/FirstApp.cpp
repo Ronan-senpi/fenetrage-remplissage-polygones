@@ -1,3 +1,6 @@
+#include <string>
+#include <iostream>
+
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
@@ -16,6 +19,7 @@ struct Application {
         shader.LoadFragmentShader("basic.fs.glsl");
         shader.Create();
 
+        std::cout << "OpenGL version supported by this platform : " << glGetString(GL_VERSION);
         return true;
     }
 
@@ -24,9 +28,9 @@ struct Application {
     }
 
     /// <summary>
-/// Render here
-/// </summary>
-/// <param name="window"></param>
+    /// Render here
+    /// </summary>
+    /// <param name="window"></param>
     void Display(GLFWwindow* window) {
         int width, height;
         /* Render here */
@@ -44,12 +48,14 @@ struct Application {
         //};
 
         static const float triangle[] = {
-            -0.8f,+0.8f,// Premier Sommet
+            -0.8,-0.8f,// Premier Sommet
             1.f, 0.f, 0.f,
-            0.0f,-0.8f, // Deuxième Sommet
+            -0.5f, +0.6f, // Deuxième Sommet
             0.f,1.f,0.f,
-            +0.8f,+0.8f, // Troisième Sommet
-            0.f,0.f,1.f
+            +0.4f,+0.5f, // Troisième Sommet
+            0.f,0.f,1.f,
+            +0.9f,-0.9f, // Quatrième Sommet
+            1.f,1.f,1.f
         };
 
         static const unsigned short indices[] = { 0, 1, 2 };
@@ -71,9 +77,9 @@ struct Application {
         glEnableVertexAttribArray(colorLocation);
 
         //dessine moi un triangle
-        glDrawArrays(GL_TRIANGLES, 0, 3 /*nb sommets*/);
+        glDrawArrays(GL_POLYGON, 0, 4 /*nb sommets*/);
 
-        glDrawElements(GL_TRIANGLES, 3 /*nb indice */, GL_UNSIGNED_SHORT, indices);
+        glDrawElements(GL_POLYGON, 4 /*nb indice */, GL_UNSIGNED_SHORT, indices);
     }
 };
 
@@ -81,12 +87,12 @@ struct Application {
 
 int main(void)
 {
+
     GLFWwindow* window;
     Application app;
     /* Initialize the glfw3 library */
     if (!glfwInit())
         return -1;
-
     /* Create a windowed mode window and its OpenGL context */
     window = glfwCreateWindow(640, 480, "Hello World", NULL, NULL);
     if (!window)
