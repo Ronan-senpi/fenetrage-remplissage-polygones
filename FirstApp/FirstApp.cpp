@@ -6,8 +6,8 @@
 
 #include "../common/GLShader.h"
 
-#include "imgui.h"
-#include "imgui_impl_glfw_gl3.h"
+#include "./src/imgui/imgui.h"
+#include "./src/imgui/imgui_impl_glfw_gl3.h"
 
 struct Vertex {
     float x, y;
@@ -97,7 +97,7 @@ struct ImguiSetup
     /// </summary>
     /// <param name="window"></param>
     void Initialize(GLFWwindow* window){
-        ImGui::CreateContext(); 
+        ImGui::CreateContext();
         ImGui_ImplGlfwGL3_Init(window, true);
         ImGui::StyleColorsDark();
     }
@@ -107,33 +107,30 @@ struct ImguiSetup
     /// </summary>
     void FirstUpdate() {
         ImGui_ImplGlfwGL3_NewFrame();
-
-        ImGui::Render();
-        ImGui_ImplGlfwGL3_RenderDrawData(ImGui::GetDrawData());
     }
     /// <summary>
     /// Exectute in loop update
     /// </summary>
     void Update() {
+
         static float f = 0.0f;
         static int counter = 0;
-
-        ImGui::Begin("Hello, world!");                          // Create a window called "Hello, world!" and append into it.
-
-        ImGui::Text("This is some useful text.");               // Display some text (you can use a format strings too)
-        ImGui::Checkbox("Demo Window", &show_demo_window);      // Edit bools storing our window open/close state
-        ImGui::Checkbox("Another Window", &show_another_window);
-
-        ImGui::SliderFloat("float", &f, 0.0f, 1.0f);            // Edit 1 float using a slider from 0.0f to 1.0f
+        ImGui::Text("Hello, world!");                           // Display some text (you can use a format string too)
+        ImGui::SliderFloat("float", &f, 0.0f, 1.0f);            // Edit 1 float using a slider from 0.0f to 1.0f    
         ImGui::ColorEdit3("clear color", (float*)&clear_color); // Edit 3 floats representing a color
 
-        if (ImGui::Button("Button"))                            // Buttons return true when clicked (most widgets return true when edited/activated)
+        ImGui::Checkbox("Demo Window", &show_demo_window);      // Edit bools storing our windows open/close state
+        ImGui::Checkbox("Another Window", &show_another_window);
+
+        if (ImGui::Button("Button"))                            // Buttons return true when clicked (NB: most widgets return true when edited/activated)
             counter++;
         ImGui::SameLine();
         ImGui::Text("counter = %d", counter);
 
         ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
-        ImGui::End();
+
+        ImGui::Render();
+        ImGui_ImplGlfwGL3_RenderDrawData(ImGui::GetDrawData());
     }
     /// <summary>
     /// Execute at end of loop 
@@ -146,7 +143,7 @@ struct ImguiSetup
     /// Execute after loop
     /// </summary>
     void Terminate() {
-        //ImGui_ImplGlfw_Shutdown();
+        ImGui_ImplGlfwGL3_Shutdown();
         ImGui::DestroyContext();
     }
 };
@@ -183,21 +180,20 @@ int main(void)
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window))
     {
-        app.Display(window);
 
         imguiSetup.FirstUpdate();
+        app.Display(window);
 
+        imguiSetup.Update();
         /* Swap front and back buffers */
         glfwSwapBuffers(window);
 
-        imguiSetup.Update();
 
         /* Poll for and process events */
         glfwPollEvents();
 
-        imguiSetup.LastUpdate();
     }
-
+    imguiSetup.Terminate();
     app.Terminate();
     glfwTerminate();
     return 0;
