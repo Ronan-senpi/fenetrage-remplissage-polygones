@@ -4,6 +4,7 @@
 
 #include "Mesh.h"
 #include <cstdint>
+#include <vector>
 
 Mesh::Mesh() {
 
@@ -26,7 +27,7 @@ Mesh::Mesh() {
 
 }
 
-void Mesh::setVertices(const float *vertices, size_t size) {
+void Mesh::setVertices(const std::vector<float> *vertices, size_t size) {
 
 	glGenBuffers(1, &_vbo);
 
@@ -39,7 +40,7 @@ void Mesh::setVertices(const float *vertices, size_t size) {
 	glBindVertexArray(0);
 }
 
-void Mesh::setIndices(const uint16_t *indices, size_t size) {
+void Mesh::setIndices(const std::vector<uint16_t> *indices, size_t size) {
 
 	glGenBuffers(1, &_ibo);
 

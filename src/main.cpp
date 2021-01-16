@@ -15,6 +15,9 @@ float deltaTime = 0.0f;    // Time between current frame and last frame
 float lastFrame = 0.0f; // Time of last frame
 
 Camera cam;
+int clickCount = 0;
+int width, height;
+
 
 void processInput(GLFWwindow *window, Camera *cam) {
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
@@ -32,6 +35,27 @@ void processInput(GLFWwindow *window, Camera *cam) {
 
 void mouse_callback(GLFWwindow *window, double xpos, double ypos) {
 	cam.mouse_callback(window, xpos, ypos);
+}
+
+void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
+{
+    if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS)
+    {
+        std::cout << "size of vertices : " << size(Vertices) << std::endl;
+
+        double xpos, ypos;
+        //getting cursor position
+        glfwGetCursorPos(window, &xpos, &ypos);
+        float xClip = (xpos + 0.5f) / 320.0f - 1.0f;
+        float yClip = 1.0f - (ypos + 0.5f) / 240.0f;
+        Vertices.push_back(xClip);
+        Vertices.push_back(yClip);
+        clickCount++;
+        std::cout << "new size of vertices : " << size(Vertices) << std::endl;
+        for (int i = 0; i < size(Vertices); i++) {
+            std::cout << "point " << i << " : " << Vertices[i] << std::endl;;
+        }
+    }
 }
 
 //Rezise
@@ -81,16 +105,17 @@ int main() {
 	glEnable(GL_DEBUG_OUTPUT);
 	glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
 	glEnable(GL_DEPTH_TEST);
-	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+	//glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	glDebugMessageCallback(messageCallback, nullptr);
+    glfwSetMouseButtonCallback(window, mouse_button_callback);
 
 	std::cout << "Driver: " << glGetString(GL_VERSION) << "\n";
 	std::cout << "GPU: " << glGetString(GL_RENDERER) << "\n";
 
 	Shader myShader("myShader");
-	Mesh dragon;
-	dragon.setVertices(DragonVertices, sizeof(DragonVertices) / sizeof(float));
-	dragon.setIndices(DragonIndices, sizeof(DragonIndices) / sizeof(uint16_t));
+	Mesh mesh;
+    mesh.setVertices(&Vertices, sizeof(Vertices) / sizeof(float));
+    mesh.setIndices(&Indices, sizeof(Indices) / sizeof(uint16_t));
 
 	cam.init();
 
@@ -132,7 +157,7 @@ int main() {
 		//CamPos
 		glUniform3fv(2, 1, glm::value_ptr(cam.getPos()));
 		//Object color
-		glUniform3fv(3, 1, glm::value_ptr(dragon.getColor()));
+		glUniform3fv(3, 1, glm::value_ptr(mesh.getColor()));
 		//lightColor
 		glUniform3fv(4, 1, glm::value_ptr(glm::vec3(1.0f, 1.0f, 1.0f)));
 		//Light pos
@@ -146,9 +171,9 @@ int main() {
 		//specularStrength
 		glUniform1f(9, 1.0f);
 		//Use mesh
-		dragon.bind();
-		glDrawElements(GL_TRIANGLES, sizeof(DragonIndices) / sizeof(uint16_t), GL_UNSIGNED_SHORT, nullptr);
-		dragon.unbind();
+        mesh.bind();
+		glDrawElements(GL_TRIANGLES, sizeof(Indices) / sizeof(uint16_t), GL_UNSIGNED_SHORT, nullptr);
+        mesh.unbind();
 
 		//Draw mesh
 
