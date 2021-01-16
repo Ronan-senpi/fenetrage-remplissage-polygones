@@ -1,11 +1,12 @@
 #include <iostream>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+#include <imgui.h>
 #include "glm/glm.hpp"
 #include "glm/gtx/transform.hpp"
 #include "glm/gtx/euler_angles.hpp"
 #include "glm/gtc/type_ptr.hpp"
-
+#include "imgui_impl_glfw_gl3.h"
 #include "Mesh.h"
 #include "Shader.h"
 #include "Dragon.h"
@@ -53,6 +54,9 @@ void messageCallback(GLenum source, GLenum type, GLuint id, GLenum severity, GLs
 			break;
 	}
 }
+bool show_demo_window = true;
+bool show_another_window = false;
+ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 
 int main() {
 	glfwInit();
@@ -94,6 +98,10 @@ int main() {
 
 	cam.init();
 
+	ImGui::CreateContext();
+	ImGui_ImplGlfwGL3_Init(window, true);
+	ImGui::StyleColorsDark();
+
 	while (!glfwWindowShouldClose(window)) {
 		float currentFrame = glfwGetTime();
 		deltaTime = currentFrame - lastFrame;
@@ -108,6 +116,8 @@ int main() {
 		//Rendering
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+		ImGui_ImplGlfwGL3_NewFrame();
 
 		myShader.bind();
 
@@ -150,10 +160,33 @@ int main() {
 		glDrawElements(GL_TRIANGLES, sizeof(DragonIndices) / sizeof(uint16_t), GL_UNSIGNED_SHORT, nullptr);
 		dragon.unbind();
 
-		//Draw mesh
+
+		static float f = 0.0f;
+		static int counter = 0;
+		ImGui::Text("Hello, world!");                           // Display some text (you can use a format string too)
+		ImGui::SliderFloat("float", &f, 0.0f, 1.0f);            // Edit 1 float using a slider from 0.0f to 1.0f
+		ImGui::ColorEdit3("clear color", (float*)&clear_color); // Edit 3 floats representing a color
+
+		ImGui::Checkbox("Demo Window", &show_demo_window);      // Edit bools storing our windows open/close state
+		ImGui::Checkbox("Another Window", &show_another_window);
+
+		if (ImGui::Button("Button"))                            // Buttons return true when clicked (NB: most widgets return true when edited/activated)
+			counter++;
+		ImGui::SameLine();
+		ImGui::Text("counter = %d", counter);
+
+		ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+
+
+
+		//Imgui renderer
+		ImGui::Render();
+		ImGui_ImplGlfwGL3_RenderDrawData(ImGui::GetDrawData());
 
 		glfwSwapBuffers(window);
 	}
+	ImGui_ImplGlfwGL3_Shutdown();
+	ImGui::DestroyContext();
 	glfwTerminate();
 	return 0;
 }
