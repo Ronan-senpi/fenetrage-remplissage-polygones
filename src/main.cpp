@@ -8,7 +8,7 @@
 
 #include "Mesh.h"
 #include "Shader.h"
-#include "Dragon.h"
+#include "Polygon.h"
 #include "Camera.h"
 
 float deltaTime = 0.0f;    // Time between current frame and last frame
@@ -112,10 +112,8 @@ int main() {
 	std::cout << "Driver: " << glGetString(GL_VERSION) << "\n";
 	std::cout << "GPU: " << glGetString(GL_RENDERER) << "\n";
 
-	Shader myShader("myShader");
+	Shader myShader("basic");
 	Mesh mesh;
-    mesh.setVertices(&Vertices, sizeof(Vertices) / sizeof(float));
-    mesh.setIndices(&Indices, sizeof(Indices) / sizeof(uint16_t));
 
 	cam.init();
 
@@ -123,7 +121,10 @@ int main() {
 		float currentFrame = glfwGetTime();
 		deltaTime = currentFrame - lastFrame;
 		lastFrame = currentFrame;
-		// Envents
+        mesh.setVertices(&Vertices, sizeof(Vertices) / sizeof(float));
+        mesh.setIndices(&Indices, sizeof(Indices) / sizeof(uint16_t));
+
+        // Envents
 		glfwPollEvents();
 
 		// Inputs
@@ -131,45 +132,11 @@ int main() {
 		glfwSetCursorPosCallback(window, mouse_callback);
 
 		//Rendering
-		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		myShader.bind();
 
-		//Displays Position
-		glm::vec3 pos(0.0f, -5.0f, 0.0f);
-
-
-		glm::mat4 model = glm::translate(pos)// Position in word space
-		                  * glm::eulerAngleXYZ(0.0f, 2.0f, 0.0f) // Model angle
-		                  * glm::scale(glm::vec3(1.0f, 1.0f, 1.0f)); //scale
-
-		//Update for move cam
-		glm::mat4 view = cam.LookAtFront();
-		GLint viewport[4];
-		glGetIntegerv(GL_VIEWPORT, viewport);
-		GLfloat ratio = (float) viewport[2] / (float) viewport[3];
-		glm::mat4 projection = glm::perspective(glm::radians(60.0f), ratio, 0.01f, 100.0f);
-
-		glm::mat4 mvp = projection * view * model;
-		//Model pos
-		glUniformMatrix4fv(1, 1, GL_FALSE, glm::value_ptr(model));
-		//CamPos
-		glUniform3fv(2, 1, glm::value_ptr(cam.getPos()));
-		//Object color
-		glUniform3fv(3, 1, glm::value_ptr(mesh.getColor()));
-		//lightColor
-		glUniform3fv(4, 1, glm::value_ptr(glm::vec3(1.0f, 1.0f, 1.0f)));
-		//Light pos
-		glUniform3fv(5, 1, glm::value_ptr(glm::vec3(10.0f, 5.0f, 10.0f)));
-		//view
-		glUniformMatrix4fv(6, 1, GL_FALSE, glm::value_ptr(view));
-		//projection
-		glUniformMatrix4fv(7, 1, GL_FALSE, glm::value_ptr(projection));
-		//ambientStrength
-		glUniform1f(8, 0.05f);
-		//specularStrength
-		glUniform1f(9, 1.0f);
 		//Use mesh
         mesh.bind();
 		glDrawElements(GL_TRIANGLES, sizeof(Indices) / sizeof(uint16_t), GL_UNSIGNED_SHORT, nullptr);
