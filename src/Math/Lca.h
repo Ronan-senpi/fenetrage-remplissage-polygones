@@ -1,0 +1,14 @@
+//
+// Created by Ronan on 17/01/2021.
+//
+
+#ifndef FENETRAGE_REMPLISSAGE_POLYGONES_LCA_H
+#define FENETRAGE_REMPLISSAGE_POLYGONES_LCA_H
+
+
+class Lca {
+ void read()
+};
+
+
+#endif //FENETRAGE_REMPLISSAGE_POLYGONES_LCA_H
