@@ -9,9 +9,7 @@
 #include "Point.h"
 
 class hodgman {
-	static std::vector<Point> SutherlandHodgman(std::vector<Point>& subjectPolygon, std::vector<Point>& clipPolygon);
-	static Point intersection(Point& edge_point1, Point& edge_point2, Point& prev_point, Point& current_point);
-	static bool inside(Point& point, Point& clip_edge_point1, Point& clip_edge_point2);
+	static std::vector<Point> SutherlandHodgman(std::vector<Point> &subjectPolygon, std::vector<Point> &clipPolygon);
 };
 
 

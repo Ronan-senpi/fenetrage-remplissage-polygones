@@ -8,13 +8,13 @@
 
 class Point {
 public:
-	inline Point(int x, int y){
-		X= x;
-		Y= y;
+	inline Point(float x, float y) {
+		X = x;
+		Y = y;
 	}
 
-	int X;
-	int Y;
+	float X;
+	float Y;
 };
 
 
