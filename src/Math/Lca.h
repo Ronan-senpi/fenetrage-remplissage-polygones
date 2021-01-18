@@ -7,7 +7,6 @@
 
 
 class Lca {
- void read()
 };
 
 

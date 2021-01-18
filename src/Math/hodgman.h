@@ -9,6 +9,7 @@
 #include "Point.h"
 
 class hodgman {
+	//Fenetrage
 	static std::vector<Point> SutherlandHodgman(std::vector<Point> &subjectPolygon, std::vector<Point> &clipPolygon);
 };
 
