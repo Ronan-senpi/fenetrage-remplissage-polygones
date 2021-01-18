@@ -3,7 +3,7 @@
 //
 
 #include "hodgman.h"
-#include "CustomMath.h" //cm::
+#include "../CustomMath.h" //cm::
 
 
 std::vector<Point> hodgman::SutherlandHodgman(std::vector<Point> &targetPolygon, std::vector<Point> &clipPolygon) {

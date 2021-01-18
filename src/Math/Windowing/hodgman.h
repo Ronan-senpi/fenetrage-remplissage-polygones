@@ -6,9 +6,10 @@
 #define FENETRAGE_REMPLISSAGE_POLYGONES_HODGMAN_H
 
 #include "vector"
-#include "Point.h"
+#include "../Point.h"
 
 class hodgman {
+	//Fenetrage
 	static std::vector<Point> SutherlandHodgman(std::vector<Point> &subjectPolygon, std::vector<Point> &clipPolygon);
 };
 

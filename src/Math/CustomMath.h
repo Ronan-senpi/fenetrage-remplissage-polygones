@@ -1,8 +1,14 @@
 //
-// Created by Ronan on 17/01/2021.
+// Created by Ronan on 18/01/2021.
 //
 
-#include "CustomMath.h"
+#ifndef FENETRAGE_REMPLISSAGE_POLYGONES_CUSTOMMATH_H
+#define FENETRAGE_REMPLISSAGE_POLYGONES_CUSTOMMATH_H
+#include "Point.h"
+namespace  cm {
+	static Point intersection(Point &edge_point1, Point &edge_point2, Point &prev_point, Point &current_point);
+	static bool inside(Point &point, Point &clip_edge_point1, Point &clip_edge_point2);
+};
 
 
 Point cm::intersection(Point &edge_point1, Point &edge_point2, Point &prev_point, Point &current_point) {
@@ -20,3 +26,5 @@ bool cm::inside(Point &point, Point &clip_edge_point1, Point &clip_edge_point2) 
 	return (clip_edge_point2.Y - clip_edge_point1.Y) * point.X + (clip_edge_point1.X - clip_edge_point2.X) * point.Y
 	       + (clip_edge_point2.X * clip_edge_point1.Y - clip_edge_point1.X * clip_edge_point2.Y) < 0;
 }
+
+#endif //FENETRAGE_REMPLISSAGE_POLYGONES_CUSTOMMATH_H
