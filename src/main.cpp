@@ -7,6 +7,16 @@
 #include "imgui_impl_glfw_gl3.h"
 #include <imgui.h>
 
+std::vector<Point> vertices = {
+        Point(0.5f,  0.5f),  // top right
+        Point(0.5f, -0.5f),  // bottom right
+        Point(-0.5f, -0.5f),  // bottom left
+
+};
+std::vector<unsigned int> indices = {  // note that we start from 0!
+        0, 1, 2  // first Triangle
+};
+
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void processInput(GLFWwindow *window);
 
@@ -14,21 +24,15 @@ void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
 {
     if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS)
     {
-//        std::cout << "size of vertices : " << size(Vertices) << std::endl;
-//
-//        double xpos, ypos;
-//        //getting cursor position
-//        glfwGetCursorPos(window, &xpos, &ypos);
-//        float xClip = (xpos + 0.5f) / 320.0f - 1.0f;
-//        float yClip = 1.0f - (ypos + 0.5f) / 240.0f;
-//        Vertices.push_back(xClip);
-//        Vertices.push_back(yClip);
-//        clickCount++;
-//        Indices.push_back();
-//        std::cout << "new size of vertices : " << size(Vertices) << std::endl;
-//        for (int i = 0; i < size(Vertices); i++) {
-//            std::cout << "point " << i << " : " << Vertices[i] << std::endl;;
-//        }
+        double xpos, ypos;
+        //getting cursor position
+        glfwGetCursorPos(window, &xpos, &ypos);
+        float xClip = (xpos + 0.5f) / 320.0f - 1.0f;
+        float yClip = 1.0f - (ypos + 0.5f) / 240.0f;
+        Point p(xClip, yClip);
+        vertices.push_back(p);
+
+        indices.push_back(vertices.size() - 1);
     }
 }
 
@@ -73,6 +77,7 @@ int main()
     }
     glfwMakeContextCurrent(window);
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+    glfwSetMouseButtonCallback(window, mouse_button_callback);
 
     // glad: load all OpenGL function pointers
     // ---------------------------------------
@@ -125,40 +130,8 @@ int main()
 
     // set up vertex data (and buffer(s)) and configure vertex attributes
     // ------------------------------------------------------------------
-    std::vector<Point> vertices = {
-            Point(0.5f,  0.5f),  // top right
-            Point(0.5f, -0.5f),  // bottom right
-            Point(-0.5f, -0.5f),  // bottom left
-            Point(-0.5f,  0.5f)   // top left
-    };
-    std::vector<unsigned int> indices = {  // note that we start from 0!
-            0, 1, 2, 3  // first Triangle
-    };
+
     unsigned int VBO, VAO, EBO;
-    glGenVertexArrays(1, &VAO);
-    glGenBuffers(1, &VBO);
-    glGenBuffers(1, &EBO);
-    // bind the Vertex Array Object first, then bind and set vertex buffer(s), and then configure vertex attributes(s).
-    glBindVertexArray(VAO);
-
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(Point), &vertices[0], GL_STATIC_DRAW);
-
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(Point), &indices[0], GL_STATIC_DRAW);
-
-    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (void*)0);
-    glEnableVertexAttribArray(0);
-
-    // note that this is allowed, the call to glVertexAttribPointer registered VBO as the vertex attribute's bound vertex buffer object so afterwards we can safely unbind
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-    // remember: do NOT unbind the EBO while a VAO is active as the bound element buffer object IS stored in the VAO; keep the EBO bound.
-    //glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-
-    // You can unbind the VAO afterwards so other VAO calls won't accidentally modify this VAO, but this rarely happens. Modifying other
-    // VAOs requires a call to glBindVertexArray anyways so we generally don't unbind VAOs (nor VBOs) when it's not directly necessary.
-    glBindVertexArray(0);
 
    // ImguiSetup im(window);
     // uncomment this call to draw in wireframe polygons.
@@ -168,6 +141,30 @@ int main()
     // -----------
     while (!glfwWindowShouldClose(window))
     {
+        glGenVertexArrays(1, &VAO);
+        glGenBuffers(1, &VBO);
+        glGenBuffers(1, &EBO);
+        // bind the Vertex Array Object first, then bind and set vertex buffer(s), and then configure vertex attributes(s).
+        glBindVertexArray(VAO);
+
+        glBindBuffer(GL_ARRAY_BUFFER, VBO);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+        glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(Point), &vertices[0], GL_STATIC_DRAW);
+
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(Point), &indices[0], GL_STATIC_DRAW);
+
+        glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (void*)0);
+        glEnableVertexAttribArray(0);
+
+        // note that this is allowed, the call to glVertexAttribPointer registered VBO as the vertex attribute's bound vertex buffer object so afterwards we can safely unbind
+        glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+        // remember: do NOT unbind the EBO while a VAO is active as the bound element buffer object IS stored in the VAO; keep the EBO bound.
+        //glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
+        // You can unbind the VAO afterwards so other VAO calls won't accidentally modify this VAO, but this rarely happens. Modifying other
+        // VAOs requires a call to glBindVertexArray anyways so we generally don't unbind VAOs (nor VBOs) when it's not directly necessary.
+        glBindVertexArray(0);
         // input
         // -----
         processInput(window);
