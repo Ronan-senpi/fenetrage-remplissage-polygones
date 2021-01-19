@@ -51,6 +51,7 @@ void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
         Vertices.push_back(xClip);
         Vertices.push_back(yClip);
         clickCount++;
+        Indices.push_back();
         std::cout << "new size of vertices : " << size(Vertices) << std::endl;
         for (int i = 0; i < size(Vertices); i++) {
             std::cout << "point " << i << " : " << Vertices[i] << std::endl;;
@@ -132,14 +133,14 @@ int main() {
 		glfwSetCursorPosCallback(window, mouse_callback);
 
 		//Rendering
-		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+		glClearColor(0.1f, 0.2f, 0.5f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		myShader.bind();
 
 		//Use mesh
         mesh.bind();
-		glDrawElements(GL_TRIANGLES, sizeof(Indices) / sizeof(uint16_t), GL_UNSIGNED_SHORT, nullptr);
+		glDrawElements(GL_LINE_LOOP, sizeof(Indices) / sizeof(uint16_t), GL_UNSIGNED_SHORT, nullptr);
         mesh.unbind();
 
 		//Draw mesh
