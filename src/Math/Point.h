@@ -11,10 +11,12 @@ public:
 	inline Point(float x, float y) {
 		X = x;
 		Y = y;
+
 	}
 
 	float X;
 	float Y;
+
 };
 
 

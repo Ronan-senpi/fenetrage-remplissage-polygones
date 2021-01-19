@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="ProjetMath"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="msvc8"/>
+		<Option virtualFolders="CMake Files\;CMake Files\vcpkg\;CMake Files\vcpkg\scripts\;CMake Files\vcpkg\scripts\buildsystems\;CMake Files\vcpkg\installed\;CMake Files\vcpkg\installed\x64-windows-static\;CMake Files\vcpkg\installed\x64-windows-static\share\;CMake Files\vcpkg\installed\x64-windows-static\share\glfw3\;CMake Files\vcpkg\installed\x64-windows-static\share\glm\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="D:/ESGI/Math/Old/fenetrage-remplissage-polygones/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="nmake /NOLOGO /f D:\ESGI\Math\Old\fenetrage-remplissage-polygones\cmake-build-debug\Makefile VERBOSE=1 all"/>
+					<CompileFile command="nmake /NOLOGO /f D:\ESGI\Math\Old\fenetrage-remplissage-polygones\cmake-build-debug\Makefile VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="nmake /NOLOGO /f D:\ESGI\Math\Old\fenetrage-remplissage-polygones\cmake-build-debug\Makefile VERBOSE=1 clean"/>
+					<DistClean command="nmake /NOLOGO /f D:\ESGI\Math\Old\fenetrage-remplissage-polygones\cmake-build-debug\Makefile VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="ProjetMath">
+				<Option output="D:/ESGI/Math/Old/fenetrage-remplissage-polygones/cmake-build-debug/ProjetMath.exe" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="D:/ESGI/Math/Old/fenetrage-remplissage-polygones/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="msvc8"/>
+				<Compiler>
+					<Add directory="D:/ESGI/Math/Old/fenetrage-remplissage-polygones/vendor/glad/include"/>
+					<Add directory="D:/ESGI/Math/Old/fenetrage-remplissage-polygones/vendor/imgui-1.60/include"/>
+					<Add directory="D:/ESGI/Math/Old/fenetrage-remplissage-polygones/vcpkg/installed/x64-windows-static/include"/>
+					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.27.29110\ATLMFC\include"/>
+					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.27.29110\include"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\NETFXSDK\4.6.1\include\um"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\shared"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\um"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\winrt"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\cppwinrt"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="nmake /NOLOGO /f D:\ESGI\Math\Old\fenetrage-remplissage-polygones\cmake-build-debug\Makefile VERBOSE=1 ProjetMath"/>
+					<CompileFile command="nmake /NOLOGO /f D:\ESGI\Math\Old\fenetrage-remplissage-polygones\cmake-build-debug\Makefile VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="nmake /NOLOGO /f D:\ESGI\Math\Old\fenetrage-remplissage-polygones\cmake-build-debug\Makefile VERBOSE=1 clean"/>
+					<DistClean command="nmake /NOLOGO /f D:\ESGI\Math\Old\fenetrage-remplissage-polygones\cmake-build-debug\Makefile VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="ProjetMath/fast">
+				<Option output="D:/ESGI/Math/Old/fenetrage-remplissage-polygones/cmake-build-debug/ProjetMath.exe" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="D:/ESGI/Math/Old/fenetrage-remplissage-polygones/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="msvc8"/>
+				<Compiler>
+					<Add directory="D:/ESGI/Math/Old/fenetrage-remplissage-polygones/vendor/glad/include"/>
+					<Add directory="D:/ESGI/Math/Old/fenetrage-remplissage-polygones/vendor/imgui-1.60/include"/>
+					<Add directory="D:/ESGI/Math/Old/fenetrage-remplissage-polygones/vcpkg/installed/x64-windows-static/include"/>
+					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.27.29110\ATLMFC\include"/>
+					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.27.29110\include"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\NETFXSDK\4.6.1\include\um"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\shared"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\um"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\winrt"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\cppwinrt"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="nmake /NOLOGO /f D:\ESGI\Math\Old\fenetrage-remplissage-polygones\cmake-build-debug\Makefile VERBOSE=1 ProjetMath/fast"/>
+					<CompileFile command="nmake /NOLOGO /f D:\ESGI\Math\Old\fenetrage-remplissage-polygones\cmake-build-debug\Makefile VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="nmake /NOLOGO /f D:\ESGI\Math\Old\fenetrage-remplissage-polygones\cmake-build-debug\Makefile VERBOSE=1 clean"/>
+					<DistClean command="nmake /NOLOGO /f D:\ESGI\Math\Old\fenetrage-remplissage-polygones\cmake-build-debug\Makefile VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="D:/ESGI/Math/Old/fenetrage-remplissage-polygones/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="nmake /NOLOGO /f D:\ESGI\Math\Old\fenetrage-remplissage-polygones\cmake-build-debug\Makefile VERBOSE=1 edit_cache"/>
+					<CompileFile command="nmake /NOLOGO /f D:\ESGI\Math\Old\fenetrage-remplissage-polygones\cmake-build-debug\Makefile VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="nmake /NOLOGO /f D:\ESGI\Math\Old\fenetrage-remplissage-polygones\cmake-build-debug\Makefile VERBOSE=1 clean"/>
+					<DistClean command="nmake /NOLOGO /f D:\ESGI\Math\Old\fenetrage-remplissage-polygones\cmake-build-debug\Makefile VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rebuild_cache">
+				<Option working_dir="D:/ESGI/Math/Old/fenetrage-remplissage-polygones/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="nmake /NOLOGO /f D:\ESGI\Math\Old\fenetrage-remplissage-polygones\cmake-build-debug\Makefile VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="nmake /NOLOGO /f D:\ESGI\Math\Old\fenetrage-remplissage-polygones\cmake-build-debug\Makefile VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="nmake /NOLOGO /f D:\ESGI\Math\Old\fenetrage-remplissage-polygones\cmake-build-debug\Makefile VERBOSE=1 clean"/>
+					<DistClean command="nmake /NOLOGO /f D:\ESGI\Math\Old\fenetrage-remplissage-polygones\cmake-build-debug\Makefile VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="D:/ESGI/Math/Old/fenetrage-remplissage-polygones/src/main.cpp">
+			<Option target="ProjetMath"/>
+		</Unit>
+		<Unit filename="D:/ESGI/Math/Old/fenetrage-remplissage-polygones/vendor/glad/src/glad.c">
+			<Option target="ProjetMath"/>
+		</Unit>
+		<Unit filename="D:/ESGI/Math/Old/fenetrage-remplissage-polygones/vendor/imgui-1.60/src/imgui.cpp">
+			<Option target="ProjetMath"/>
+		</Unit>
+		<Unit filename="D:/ESGI/Math/Old/fenetrage-remplissage-polygones/vendor/imgui-1.60/src/imgui_demo.cpp">
+			<Option target="ProjetMath"/>
+		</Unit>
+		<Unit filename="D:/ESGI/Math/Old/fenetrage-remplissage-polygones/vendor/imgui-1.60/src/imgui_draw.cpp">
+			<Option target="ProjetMath"/>
+		</Unit>
+		<Unit filename="D:/ESGI/Math/Old/fenetrage-remplissage-polygones/vendor/imgui-1.60/src/imgui_impl_glfw_gl3.cpp">
+			<Option target="ProjetMath"/>
+		</Unit>
+		<Unit filename="D:/ESGI/Math/Old/fenetrage-remplissage-polygones/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+		<Unit filename="D:/ESGI/Math/Old/fenetrage-remplissage-polygones/vcpkg/scripts/buildsystems/vcpkg.cmake">
+			<Option virtualFolder="CMake Files\vcpkg\scripts\buildsystems\"/>
+		</Unit>
+		<Unit filename="D:/ESGI/Math/Old/fenetrage-remplissage-polygones/vcpkg/installed/x64-windows-static/share/glfw3/glfw3Config.cmake">
+			<Option virtualFolder="CMake Files\vcpkg\installed\x64-windows-static\share\glfw3\"/>
+		</Unit>
+		<Unit filename="D:/ESGI/Math/Old/fenetrage-remplissage-polygones/vcpkg/installed/x64-windows-static/share/glfw3/glfw3ConfigVersion.cmake">
+			<Option virtualFolder="CMake Files\vcpkg\installed\x64-windows-static\share\glfw3\"/>
+		</Unit>
+		<Unit filename="D:/ESGI/Math/Old/fenetrage-remplissage-polygones/vcpkg/installed/x64-windows-static/share/glfw3/glfw3Targets-debug.cmake">
+			<Option virtualFolder="CMake Files\vcpkg\installed\x64-windows-static\share\glfw3\"/>
+		</Unit>
+		<Unit filename="D:/ESGI/Math/Old/fenetrage-remplissage-polygones/vcpkg/installed/x64-windows-static/share/glfw3/glfw3Targets-release.cmake">
+			<Option virtualFolder="CMake Files\vcpkg\installed\x64-windows-static\share\glfw3\"/>
+		</Unit>
+		<Unit filename="D:/ESGI/Math/Old/fenetrage-remplissage-polygones/vcpkg/installed/x64-windows-static/share/glfw3/glfw3Targets.cmake">
+			<Option virtualFolder="CMake Files\vcpkg\installed\x64-windows-static\share\glfw3\"/>
+		</Unit>
+		<Unit filename="D:/ESGI/Math/Old/fenetrage-remplissage-polygones/vcpkg/installed/x64-windows-static/share/glm/glm-config.cmake">
+			<Option virtualFolder="CMake Files\vcpkg\installed\x64-windows-static\share\glm\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>
