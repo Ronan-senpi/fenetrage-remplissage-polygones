@@ -1,15 +1,17 @@
 #include <iostream>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+#include <imgui.h>
 #include "glm/glm.hpp"
 #include "glm/gtx/transform.hpp"
 #include "glm/gtx/euler_angles.hpp"
 #include "glm/gtc/type_ptr.hpp"
-
+#include "imgui_impl_glfw_gl3.h"
 #include "Mesh.h"
 #include "Shader.h"
 #include "Polygon.h"
 #include "Camera.h"
+#include "ImguiSetup.h"
 
 float deltaTime = 0.0f;    // Time between current frame and last frame
 float lastFrame = 0.0f; // Time of last frame
@@ -117,6 +119,8 @@ int main() {
 	Mesh mesh;
 
 	cam.init();
+	ImguiSetup im(window);
+
 
 	while (!glfwWindowShouldClose(window)) {
 		float currentFrame = glfwGetTime();
@@ -136,6 +140,8 @@ int main() {
 		glClearColor(0.1f, 0.2f, 0.5f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+		im.firstUpdate();
+
 		myShader.bind();
 
 		//Use mesh
@@ -143,10 +149,13 @@ int main() {
 		glDrawElements(GL_LINE_LOOP, sizeof(Indices) / sizeof(uint16_t), GL_UNSIGNED_SHORT, nullptr);
         mesh.unbind();
 
-		//Draw mesh
+		im.update();
+		im.lastUpdate();
 
 		glfwSwapBuffers(window);
 	}
+	ImGui_ImplGlfwGL3_Shutdown();
+	ImGui::DestroyContext();
 	glfwTerminate();
 	return 0;
 }
