@@ -13,6 +13,7 @@
 
 struct GLFWwindow;
 
+IMGUI_API static  bool         g_MouseJustPressed[3] = { false, false, false };
 IMGUI_API bool        ImGui_ImplGlfwGL3_Init(GLFWwindow* window, bool install_callbacks, const char* glsl_version = NULL);
 IMGUI_API void        ImGui_ImplGlfwGL3_Shutdown();
 IMGUI_API void        ImGui_ImplGlfwGL3_NewFrame();

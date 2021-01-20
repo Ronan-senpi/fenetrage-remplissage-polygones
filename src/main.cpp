@@ -12,6 +12,9 @@
 bool drawingPolygon = true;
 glm::vec3 polygonColor(1.0f, 1.0f, 1.0f);
 glm::vec3 cutColor(1.0f, 0.0f, 0.0f);
+ImguiSetup im;
+std::vector<Point> vertices = {
+ // bottom left
 
 std::vector<Point> polygonVertices = {
         // bottom left
@@ -32,6 +35,7 @@ std::vector<unsigned int> cutIndices = {
 void framebuffer_size_callback(GLFWwindow *window, int width, int height);
 
 void processInput(GLFWwindow *window);
+
 
 void mouse_button_callback(GLFWwindow *window, int button, int action, int mods) {
     if (button == GLFW_MOUSE_BUTTON_RIGHT && action == GLFW_PRESS) {
@@ -149,7 +153,7 @@ int main() {
     unsigned int polygonVBO, polygonVAO, polygonEBO;
     unsigned int cutVBO, cutVAO, cutEBO;
 
-    ImguiSetup im(window);
+    im.init(window);
     // uncomment this call to draw in wireframe polygons.
     //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
