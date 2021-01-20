@@ -6,6 +6,7 @@
 #include <imgui_impl_glfw_gl3.h>
 #include "ImguiSetup.h"
 #include "iostream"
+
 ImguiSetup::ImguiSetup() {}
 
 void ImguiSetup::firstUpdate() {
@@ -20,11 +21,19 @@ void ImguiSetup::lastUpdate() {
 	ImGui::Render();
 	ImGui_ImplGlfwGL3_RenderDrawData(ImGui::GetDrawData());
 }
-
 void ImguiSetup::init(GLFWwindow *window) {
+    ImGui::CreateContext();
+    ImGui_ImplGlfwGL3_Init(window, true);
+    ImGui::StyleColorsDark();
+}
+void ImguiSetup::init(GLFWwindow *window, std::vector<Point> *polygonVertices, std::vector<Point> *cutVertices, std::vector<unsigned int> *polygonIndices, std::vector<unsigned int> *cutIndices) {
 	ImGui::CreateContext();
 	ImGui_ImplGlfwGL3_Init(window, true);
 	ImGui::StyleColorsDark();
+    _polygonVertices = polygonVertices;
+    _cutVertices = cutVertices;
+    _polygonIndices = polygonIndices;
+    _cutIndices = cutIndices;
 }
 
 bool ImguiSetup::getIsWindowTracing() {
@@ -52,6 +61,12 @@ void ImguiSetup::mainWindow() {
 	//End : Windowing
 	//stats
 	ImGui::Text("Application average %.3f ms/frame \n (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+	
+	ImGui::Text("");
+    if (ImGui::Button("Clear")) {
+        std::cout << "Clear" << std::endl;
+        clear();
+    }
 	//end
 	ImGui::End();
 }
@@ -63,4 +78,11 @@ Color ImguiSetup::getFillColor() {
 ImguiSetup::~ImguiSetup() {
 	ImGui_ImplGlfwGL3_Shutdown();
 	ImGui::DestroyContext();
+}
+
+void ImguiSetup::clear() {
+    _polygonVertices->clear();
+    _polygonIndices->clear();
+    _cutVertices->clear();
+    _cutIndices->clear();
 }
