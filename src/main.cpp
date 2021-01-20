@@ -138,7 +138,7 @@ int main() {
     unsigned int polygonVBO, polygonVAO, polygonEBO;
     unsigned int cutVBO, cutVAO, cutEBO;
 
-    im.init(window);
+    im.init(window, &polygonVertices, &cutVertices, &polygonIndices, &cutIndices);
     // uncomment this call to draw in wireframe polygons.
     //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
