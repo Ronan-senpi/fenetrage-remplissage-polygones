@@ -32,23 +32,27 @@ bool ImguiSetup::getIsWindowTracing() {
 }
 
 void ImguiSetup::mainWindow() {
+	//Set name of windows
 	ImGui::Begin("Main");
-	static float f = 0.0f;
-	static int counter = 0;
+	//Begin : Filling
 	ImGui::Text("Filling :"); // Display some text (you can use a format string too)
 	ImGui::ColorEdit3("fill color", (float*)&fillColor); // Edit 3 floats representing a color
 	if (ImGui::Button("Fill polygon")) {
 		std::cout << getFillColor().r << " " << getFillColor().g << " " << getFillColor().b << std::endl;
 	}
+	//End : Filling
 	ImGui::Text("");
+	//Start : Windowing
 	ImGui::Text("Windowing :");
 	ImGui::Checkbox("Window tracing", &isWindowTracing);      // Edit bools storing our windows open/close state
 	if (ImGui::Button("Cut"))
 	{
-		counter++; //cut
+		 //cut Go hogman
 	}
-
+	//End : Windowing
+	//stats
 	ImGui::Text("Application average %.3f ms/frame \n (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+	//end
 	ImGui::End();
 }
 
