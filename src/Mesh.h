@@ -8,13 +8,14 @@
 #include "glm/glm.hpp"
 #include <cstdint>
 #include <glad/glad.h>
+#include <vector>
 
 class Mesh {
 public:
 	Mesh();
 
-	void setVertices(const float *vertices, size_t size);
-	void setIndices(const uint16_t *indices, size_t size);
+	void setVertices(const std::vector<float> *vertices, size_t size);
+	void setIndices(const std::vector<uint16_t> *indices, size_t size);
 	void bind();
 	void unbind();
 
