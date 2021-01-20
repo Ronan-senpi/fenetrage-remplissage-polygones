@@ -6,12 +6,27 @@
 #include "Polygon.h"
 #include "ImguiSetup.h"
 #include "Math/Point.h"
+#include "glm/glm.hpp"
+#include "glm/gtc/type_ptr.hpp"
 
-std::vector<Point> vertices = {
- // bottom left
+bool drawingPolygon = true;
+glm::vec3 polygonColor(1.0f, 1.0f, 1.0f);
+glm::vec3 cutColor(1.0f, 0.0f, 0.0f);
+
+std::vector<Point> polygonVertices = {
+        // bottom left
 
 };
-std::vector<unsigned int> indices = {  // note that we start from 0!
+std::vector<unsigned int> polygonIndices = {  // note that we start from 0!
+};
+
+
+std::vector<Point> cutVertices = {
+
+};
+
+std::vector<unsigned int> cutIndices = {
+
 };
 
 void framebuffer_size_callback(GLFWwindow *window, int width, int height);
@@ -19,22 +34,24 @@ void framebuffer_size_callback(GLFWwindow *window, int width, int height);
 void processInput(GLFWwindow *window);
 
 void mouse_button_callback(GLFWwindow *window, int button, int action, int mods) {
-    if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS) {
+    if (button == GLFW_MOUSE_BUTTON_RIGHT && action == GLFW_PRESS) {
+
         double xpos, ypos;
         //getting cursor position
         glfwGetCursorPos(window, &xpos, &ypos);
         int width, height;
         glfwGetWindowSize(window, &width, &height);
-//        float xClip = (xpos + 0.5f) / height - 1.0f;
-//        float yClip = 1.0f - (ypos + 0.5f) / width;
-
         float xClip = (xpos / width) * 2.0 - 1.0;
         float yClip = 1.0 - (ypos / height) * 2.0; // the Y is usually upside down
 
         Point p(xClip, yClip);
-        vertices.push_back(p);
-
-        indices.push_back(vertices.size() - 1);
+        if (drawingPolygon) {
+            polygonVertices.push_back(p);
+            polygonIndices.push_back(polygonVertices.size() - 1);
+        } else {
+            cutVertices.push_back(p);
+            cutIndices.push_back(cutVertices.size() - 1);
+        }
     }
 }
 
@@ -42,17 +59,18 @@ void mouse_button_callback(GLFWwindow *window, int button, int action, int mods)
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
 
-const char *vertexShaderSource = "#version 330 core\n"
+const char *vertexShaderSource = "#version 430 core\n"
                                  "layout (location = 0) in vec3 aPos;\n"
                                  "void main()\n"
                                  "{\n"
                                  "   gl_Position = vec4(aPos.x, aPos.y, 0, 1.0);\n"
                                  "}\0";
-const char *fragmentShaderSource = "#version 330 core\n"
+const char *fragmentShaderSource = "#version 430 core\n"
+                                   "layout (location = 2) uniform vec3 color;\n"
                                    "out vec4 FragColor;\n"
                                    "void main()\n"
                                    "{\n"
-                                   "   FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n"
+                                   "   FragColor = vec4(color, 1.0f);\n"
                                    "}\n\0";
 
 int main() {
@@ -128,7 +146,8 @@ int main() {
     // set up vertex data (and buffer(s)) and configure vertex attributes
     // ------------------------------------------------------------------
 
-    unsigned int VBO, VAO, EBO;
+    unsigned int polygonVBO, polygonVAO, polygonEBO;
+    unsigned int cutVBO, cutVAO, cutEBO;
 
     ImguiSetup im(window);
     // uncomment this call to draw in wireframe polygons.
@@ -137,29 +156,57 @@ int main() {
     // render loop
     // -----------
     while (!glfwWindowShouldClose(window)) {
-        if (vertices.size() > 3) {
-            glGenVertexArrays(1, &VAO);
-            glGenBuffers(1, &VBO);
-            glGenBuffers(1, &EBO);
+        if (polygonVertices.size() > 3) {
+            glGenVertexArrays(1, &polygonVAO);
+            glGenBuffers(1, &polygonVBO);
+            glGenBuffers(1, &polygonEBO);
             // bind the Vertex Array Object first, then bind and set vertex buffer(s), and then configure vertex attributes(s).
-            glBindVertexArray(VAO);
+            glBindVertexArray(polygonVAO);
 
-            glBindBuffer(GL_ARRAY_BUFFER, VBO);
-            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-            glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(Point), &vertices[0], GL_STATIC_DRAW);
+            glBindBuffer(GL_ARRAY_BUFFER, polygonVBO);
+            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, polygonEBO);
+            glBufferData(GL_ARRAY_BUFFER, polygonVertices.size() * sizeof(Point), &polygonVertices[0], GL_STATIC_DRAW);
 
-            glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(Point), &indices[0], GL_STATIC_DRAW);
+            glBufferData(GL_ELEMENT_ARRAY_BUFFER, polygonIndices.size() * sizeof(Point), &polygonIndices[0],
+                         GL_STATIC_DRAW);
 
             glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (void *) 0);
             glEnableVertexAttribArray(0);
 
-            // note that this is allowed, the call to glVertexAttribPointer registered VBO as the vertex attribute's bound vertex buffer object so afterwards we can safely unbind
+            // note that this is allowed, the call to glVertexAttribPointer registered polygonVBO as the vertex attribute's bound vertex buffer object so afterwards we can safely unbind
             glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-            // remember: do NOT unbind the EBO while a VAO is active as the bound element buffer object IS stored in the VAO; keep the EBO bound.
+            // remember: do NOT unbind the polygonEBO while a polygonVAO is active as the bound element buffer object IS stored in the polygonVAO; keep the polygonEBO bound.
             //glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
-            // You can unbind the VAO afterwards so other VAO calls won't accidentally modify this VAO, but this rarely happens. Modifying other
+            // You can unbind the polygonVAO afterwards so other polygonVAO calls won't accidentally modify this polygonVAO, but this rarely happens. Modifying other
+            // VAOs requires a call to glBindVertexArray anyways so we generally don't unbind VAOs (nor VBOs) when it's not directly necessary.
+            glBindVertexArray(0);
+        }
+        if (cutVertices.size() > 3) {
+            glGenVertexArrays(1, &cutVAO);
+            glGenBuffers(1, &cutVBO);
+            glGenBuffers(1, &cutEBO);
+            // bind the Vertex Array Object first, then bind and set vertex buffer(s), and then configure vertex attributes(s).
+            glBindVertexArray(cutVAO);
+
+            glBindBuffer(GL_ARRAY_BUFFER, cutVBO);
+            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, cutEBO);
+            glBufferData(GL_ARRAY_BUFFER, cutVertices.size() * sizeof(Point), &cutVertices[0], GL_STATIC_DRAW);
+
+            glBufferData(GL_ELEMENT_ARRAY_BUFFER, cutIndices.size() * sizeof(Point), &cutIndices[0],
+                         GL_STATIC_DRAW);
+
+            glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (void *) 0);
+            glEnableVertexAttribArray(0);
+
+            // note that this is allowed, the call to glVertexAttribPointer registered polygonVBO as the vertex attribute's bound vertex buffer object so afterwards we can safely unbind
+            glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+            // remember: do NOT unbind the polygonEBO while a polygonVAO is active as the bound element buffer object IS stored in the polygonVAO; keep the polygonEBO bound.
+            //glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
+            // You can unbind the polygonVAO afterwards so other polygonVAO calls won't accidentally modify this polygonVAO, but this rarely happens. Modifying other
             // VAOs requires a call to glBindVertexArray anyways so we generally don't unbind VAOs (nor VBOs) when it's not directly necessary.
             glBindVertexArray(0);
         }
@@ -172,13 +219,25 @@ int main() {
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
         im.firstUpdate();
-        if (vertices.size() > 3) {
+        if (polygonVertices.size() > 3) {
             // draw our first triangle
             glUseProgram(shaderProgram);
+            glUniform3fv(2, 1, glm::value_ptr(polygonColor));
+
             glBindVertexArray(
-                    VAO); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
+                    polygonVAO); // seeing as we only have a single polygonVAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
             //glDrawArrays(GL_TRIANGLES, 0, 6);
-            glDrawElements(GL_LINE_LOOP, indices.size(), GL_UNSIGNED_INT, 0);
+            glDrawElements(GL_LINE_LOOP, polygonIndices.size(), GL_UNSIGNED_INT, 0);
+        }
+        if (cutVertices.size() > 3) {
+            // draw our first triangle
+            glUseProgram(shaderProgram);
+            glUniform3fv(2, 1, glm::value_ptr(cutColor));
+
+            glBindVertexArray(
+                    cutVAO); // seeing as we only have a single polygonVAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
+            //glDrawArrays(GL_TRIANGLES, 0, 6);
+            glDrawElements(GL_LINE_LOOP, cutIndices.size(), GL_UNSIGNED_INT, 0);
         }
         // glBindVertexArray(0); // no need to unbind it every time
         im.update();
@@ -192,9 +251,9 @@ int main() {
     ImGui::DestroyContext();
     // optional: de-allocate all resources once they've outlived their purpose:
     // ------------------------------------------------------------------------
-    glDeleteVertexArrays(1, &VAO);
-    glDeleteBuffers(1, &VBO);
-    glDeleteBuffers(1, &EBO);
+    glDeleteVertexArrays(1, &polygonVAO);
+    glDeleteBuffers(1, &polygonVBO);
+    glDeleteBuffers(1, &polygonEBO);
     glDeleteProgram(shaderProgram);
     // glfw: terminate, clearing all previously allocated GLFW resources.
     // ------------------------------------------------------------------
@@ -207,6 +266,8 @@ int main() {
 void processInput(GLFWwindow *window) {
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         glfwSetWindowShouldClose(window, true);
+    if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_TRUE)
+        drawingPolygon = !drawingPolygon;
 }
 
 // glfw: whenever the window size changed (by OS or user resize) this callback function executes
