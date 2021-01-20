@@ -6,7 +6,7 @@
 #include "Polygon.h"
 #include "ImguiSetup.h"
 #include "Math/Point.h"
-
+ImguiSetup im;
 std::vector<Point> vertices = {
  // bottom left
 
@@ -17,6 +17,7 @@ std::vector<unsigned int> indices = {  // note that we start from 0!
 void framebuffer_size_callback(GLFWwindow *window, int width, int height);
 
 void processInput(GLFWwindow *window);
+
 
 void mouse_button_callback(GLFWwindow *window, int button, int action, int mods) {
     if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS) {
@@ -130,7 +131,7 @@ int main() {
 
     unsigned int VBO, VAO, EBO;
 
-    ImguiSetup im(window);
+    im.init(window);
     // uncomment this call to draw in wireframe polygons.
     //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 

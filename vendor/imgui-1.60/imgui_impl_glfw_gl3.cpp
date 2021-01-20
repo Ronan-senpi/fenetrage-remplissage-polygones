@@ -53,7 +53,6 @@
 // GLFW data
 static GLFWwindow*  g_Window = NULL;
 static double       g_Time = 0.0f;
-static bool         g_MouseJustPressed[3] = { false, false, false };
 static GLFWcursor*  g_MouseCursors[ImGuiMouseCursor_COUNT] = { 0 };
 
 // OpenGL3 data
@@ -349,7 +348,7 @@ void    ImGui_ImplGlfwGL3_InvalidateDeviceObjects()
 
 static void ImGui_ImplGlfw_InstallCallbacks(GLFWwindow* window)
 {
-//    glfwSetMouseButtonCallback(window, ImGui_ImplGlfw_MouseButtonCallback);
+    //glfwSetMouseButtonCallback(window, ImGui_ImplGlfw_MouseButtonCallback);
     glfwSetScrollCallback(window, ImGui_ImplGlfw_ScrollCallback);
     glfwSetKeyCallback(window, ImGui_ImplGlfw_KeyCallback);
     glfwSetCharCallback(window, ImGui_ImplGlfw_CharCallback);
