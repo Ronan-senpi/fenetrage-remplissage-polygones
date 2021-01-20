@@ -1,8 +1,6 @@
 #include <iostream>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
-#include <imgui.h>
-#include "imgui_impl_glfw_gl3.h"
 #include "Polygon.h"
 #include "ImguiSetup.h"
 #include "Math/Point.h"
@@ -238,8 +236,6 @@ int main() {
         glfwSwapBuffers(window);
         glfwPollEvents();
     }
-    ImGui_ImplGlfwGL3_Shutdown();
-    ImGui::DestroyContext();
     // optional: de-allocate all resources once they've outlived their purpose:
     // ------------------------------------------------------------------------
     glDeleteVertexArrays(1, &polygonVAO);

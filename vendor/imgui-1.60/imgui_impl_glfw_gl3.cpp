@@ -418,7 +418,7 @@ bool    ImGui_ImplGlfwGL3_Init(GLFWwindow* window, bool install_callbacks, const
 
 void ImGui_ImplGlfwGL3_Shutdown()
 {
-    // Destroy GLFW mouse cursors
+    // Destroy GLFW mouse cursorsImGui::Begin
     for (ImGuiMouseCursor cursor_n = 0; cursor_n < ImGuiMouseCursor_COUNT; cursor_n++)
         glfwDestroyCursor(g_MouseCursors[cursor_n]);
     memset(g_MouseCursors, 0, sizeof(g_MouseCursors));
