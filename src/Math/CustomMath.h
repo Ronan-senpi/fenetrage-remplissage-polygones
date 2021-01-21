@@ -5,7 +5,24 @@
 #ifndef FENETRAGE_REMPLISSAGE_POLYGONES_CUSTOMMATH_H
 #define FENETRAGE_REMPLISSAGE_POLYGONES_CUSTOMMATH_H
 #include "Point.h"
+#include "Edge.h"
+#include <vector>
 namespace  cm {
+	static std::vector<Edge> getEdges(std::vector<Point> ps){
+		std::vector<Edge> e;
+		Point p;
+		for (int i = 0; i < ps.size(); ++i) {
+			if (i+1 > ps.size()){
+				p = ps[0];
+			}
+			else
+			{
+				p = ps[i+1];
+			}
+			e.emplace_back(ps[i], p);
+		}
+		return e;
+	}
 	static Point intersection(Point &edge_point1, Point &edge_point2, Point &prev_point, Point &current_point);
 	static bool inside(Point &point, Point &clip_edge_point1, Point &clip_edge_point2);
 };
@@ -26,5 +43,7 @@ bool cm::inside(Point &point, Point &clip_edge_point1, Point &clip_edge_point2) 
 	return (clip_edge_point2.Y - clip_edge_point1.Y) * point.X + (clip_edge_point1.X - clip_edge_point2.X) * point.Y
 	       + (clip_edge_point2.X * clip_edge_point1.Y - clip_edge_point1.X * clip_edge_point2.Y) < 0;
 }
+
+
 
 #endif //FENETRAGE_REMPLISSAGE_POLYGONES_CUSTOMMATH_H
