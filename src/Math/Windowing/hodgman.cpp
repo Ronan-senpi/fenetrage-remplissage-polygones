@@ -29,7 +29,6 @@ std::vector<Point> hodgman::SutherlandHodgman(std::vector<Point> targetPolygon, 
 			}else if(cm::inside(prev_point,edge_1_point, edge_2_point)){
 				outputList.push_back(cm::intersection(edge_1_point, edge_2_point, prev_point, current_point));
 			}
-
 		}
 	}
 	return outputList;
