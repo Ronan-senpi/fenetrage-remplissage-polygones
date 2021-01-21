@@ -47,6 +47,7 @@ void ImguiSetup::mainWindow() {
 	//Begin : Filling
 	ImGui::Text("Right-click to place points");
 	ImGui::Text("(The polygon appears after 4 clicks)");
+	ImGui::Text("(convex polygon only)");
 	ImGui::Text("");
 	ImGui::Text("Filling :"); // Display some text (you can use a format string too)
 	ImGui::ColorEdit3("fill color", (float*)&fillColor); // Edit 3 floats representing a color
@@ -62,6 +63,11 @@ void ImguiSetup::mainWindow() {
 	{
 
 		std::vector<Point> b = hodgman::SutherlandHodgman(*_polygonVertices, *_cutVertices);
+		if (b.size() == 0){
+			std::reverse(_polygonVertices->begin(),_polygonVertices->end());
+			std::reverse(_cutVertices->begin(),_cutVertices->end());
+			b = hodgman::SutherlandHodgman(*_polygonVertices, *_cutVertices);
+		}
 		//clear();
 		clear();
 		_polygonVertices->insert(_polygonVertices->end(), b.begin(), b.end());
@@ -80,8 +86,6 @@ void ImguiSetup::mainWindow() {
 	//stats
 	ImGui::Text("Application average %.3f ms/frame \n (%.1f FPS)",
 			 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
-
-
 	//end
 	ImGui::End();
 }
