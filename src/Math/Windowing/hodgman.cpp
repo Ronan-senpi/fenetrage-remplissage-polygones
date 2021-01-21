@@ -4,7 +4,6 @@
 
 #include "hodgman.h"
 #include "../CustomMath.h" //cm::
-#include "../Edge.h"
 
 
 std::vector<Point> hodgman::SutherlandHodgman(std::vector<Point> targetPolygon, std::vector<Point> clipPolygon) {
