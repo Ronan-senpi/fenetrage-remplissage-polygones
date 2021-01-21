@@ -17,7 +17,11 @@ public:
 	ImguiSetup();
 	~ImguiSetup();
 	void init(GLFWwindow *window);
-    void init(GLFWwindow *window, std::vector<Point> *polygonVertices, std::vector<Point> *cutVertices, std::vector<unsigned int> *polygonIndices, std::vector<unsigned int> *cutIndices);
+    void init(GLFWwindow *window,
+			  std::vector<Point> *polygonVertices,
+			  std::vector<Point> *cutVertices,
+			  std::vector<unsigned int> *polygonIndices,
+			  std::vector<unsigned int> *cutIndices);
     void firstUpdate();
 	void update();
 	void lastUpdate();

@@ -34,7 +34,7 @@ void mouse_button_callback(GLFWwindow *window, int button, int action, int mods)
         float yClip = 1.0 - (ypos / height) * 2.0; // the Y is usually upside down
 
         Point p(xClip, yClip);
-        if (im.getIsWindowTracing()) {
+        if (!im.getIsWindowTracing()) {
             polygonVertices.push_back(p);
             polygonIndices.push_back(polygonVertices.size() - 1);
         } else {

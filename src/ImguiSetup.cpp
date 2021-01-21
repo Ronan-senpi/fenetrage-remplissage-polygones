@@ -6,6 +6,7 @@
 #include <imgui_impl_glfw_gl3.h>
 #include "ImguiSetup.h"
 #include "iostream"
+#include "Math/Windowing/hodgman.h"
 
 ImguiSetup::ImguiSetup() {}
 
@@ -44,6 +45,9 @@ void ImguiSetup::mainWindow() {
 	//Set name of windows
 	ImGui::Begin("Main");
 	//Begin : Filling
+	ImGui::Text("Right-click to place points");
+	ImGui::Text("(The polygon appears after 4 clicks)");
+	ImGui::Text("");
 	ImGui::Text("Filling :"); // Display some text (you can use a format string too)
 	ImGui::ColorEdit3("fill color", (float*)&fillColor); // Edit 3 floats representing a color
 	if (ImGui::Button("Fill polygon")) {
@@ -53,20 +57,31 @@ void ImguiSetup::mainWindow() {
 	ImGui::Text("");
 	//Start : Windowing
 	ImGui::Text("Windowing :");
-	ImGui::Checkbox("Window tracing", &isWindowTracing);      // Edit bools storing our windows open/close state
+	ImGui::Checkbox("Window tracing", &isWindowTracing);
 	if (ImGui::Button("Cut"))
 	{
-		 //cut Go hogman
+
+		std::vector<Point> b = hodgman::SutherlandHodgman(*_polygonVertices, *_cutVertices);
+		//clear();
+		clear();
+		_polygonVertices->insert(_polygonVertices->end(), b.begin(), b.end());
+		for (int i = 0; i < _polygonVertices->size(); ++i) {
+			_polygonIndices->push_back(i);
+		}
 	}
 	//End : Windowing
-	//stats
-	ImGui::Text("Application average %.3f ms/frame \n (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
-	
 	ImGui::Text("");
-    if (ImGui::Button("Clear")) {
-        std::cout << "Clear" << std::endl;
-        clear();
-    }
+	if (ImGui::Button("Clear")) {
+		std::cout << "Clear" << std::endl;
+		clear();
+	}
+
+	ImGui::Text("");
+	//stats
+	ImGui::Text("Application average %.3f ms/frame \n (%.1f FPS)",
+			 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+
+
 	//end
 	ImGui::End();
 }
