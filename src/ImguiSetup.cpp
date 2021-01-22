@@ -53,6 +53,7 @@ void ImguiSetup::mainWindow() {
 	ImGui::ColorEdit3("fill color", (float*)&fillColor); // Edit 3 floats representing a color
 	if (ImGui::Button("Fill polygon")) {
 		std::cout << getFillColor().r << " " << getFillColor().g << " " << getFillColor().b << std::endl;
+        apply_lca();
 	}
 	//End : Filling
 	ImGui::Text("");
@@ -109,4 +110,88 @@ void ImguiSetup::clear() {
     _polygonIndices->clear();
     _cutVertices->clear();
     _cutIndices->clear();
+    isFilling=false;
+}
+
+bool ImguiSetup::getIsFilling() {
+    return isFilling;
+}
+void ImguiSetup::delimit(){
+    std::vector<Point> cutVertices = *_cutVertices;
+    polygon_xmin=cutVertices[0].X;
+    polygon_xmax=cutVertices[0].X;
+    polygon_ymin=cutVertices[0].Y;
+    polygon_ymax=cutVertices[0].Y;
+    for (int i=0; i<cutVertices.size(); i++)
+    {
+        if(polygon_xmin>cutVertices[i].X)
+            polygon_xmin=cutVertices[i].X;
+        if(polygon_xmax<cutVertices[i].X)
+            polygon_xmax=cutVertices[i].X;
+        if(polygon_ymin>cutVertices[i].Y)
+            polygon_ymin=cutVertices[i].Y;
+        if(polygon_ymax<cutVertices[i].Y)
+            polygon_ymax=cutVertices[i].Y;
+    }
+}
+
+void ImguiSetup::fill_inter(float ligne){
+    std::vector<Point> cutVertices = *_cutVertices;
+    std::vector<unsigned int> cutIndices = *_cutIndices;
+    int x1,x2,y1,y2;
+    int x_cote;
+    int indice_inter=0;
+    for(int i=0;i<cutVertices.size();i++)
+    {
+        if(cutVertices[i].Y<cutVertices[i+1].Y){
+            x1=cutVertices[i].X;
+            y1=cutVertices[i].Y;
+            x2=cutVertices[i+1].X;
+            y2=cutVertices[i+1].Y;
+        }
+        else{
+            x2=cutVertices[i].X;
+            y2=cutVertices[i].Y;
+            x1=cutVertices[i+1].X;
+            y1=cutVertices[i+1].Y;
+        }
+        if(ligne<=y2 && ligne >=y1){
+            if((y1-y2)==0) //To avoid the division by zero
+                x_cote=x1;
+            else
+            {
+                x_cote=((x2-x1)*(ligne-y1))/(y2-y1);
+                x_cote+=x1;
+            }
+            if(x_cote<=polygon_xmax && x_cote>=polygon_xmin)
+                LCA_inter[indice_inter]=x_cote;
+                indice_inter++;
+        }
+
+    }
+}
+
+void ImguiSetup::draw_line(float ligne){
+    //We should sort LCA_inter but i'm not sure
+    
+    for(int i=0; i<LCA_inter.size(); i+=2)
+    {
+        // We draw here the line with the coordinates (LCA_inter[i],ligne,LCA_inter[i+1],ligne);
+    }
+}
+
+void ImguiSetup::apply_lca() {
+    float ligne;
+    std::vector<Point> cutVertices = *_cutVertices;
+    std::vector<unsigned int> cutIndices = *_cutIndices;
+    if(cutVertices.size()>3){
+        isFilling = true;
+        delimit();
+        ligne = polygon_ymin+0.01;
+        while(ligne<=polygon_ymax){
+            fill_inter(ligne);
+            draw_line(ligne);
+            ligne=ligne+0.01;
+        }
+    }
 }

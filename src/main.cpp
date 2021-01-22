@@ -10,6 +10,7 @@
 bool drawingPolygon = true;
 glm::vec3 polygonColor(1.0f, 1.0f, 1.0f);
 glm::vec3 cutColor(1.0f, 0.0f, 0.0f);
+glm::vec3 fillColor(0.0f, 0.0f, 1.0f);
 ImguiSetup im;
 
 std::vector<Point> polygonVertices = {};
@@ -17,6 +18,11 @@ std::vector<unsigned int> polygonIndices = {};
 
 std::vector<Point> cutVertices = {};
 std::vector<unsigned int> cutIndices = {};
+
+Point A(-0.5f,-0.5f);
+Point B(0.5f,0.5f);
+std::vector<Point> TestVertices = {A,B};
+std::vector<unsigned int> TestIndices = {0,1};
 
 void framebuffer_size_callback(GLFWwindow *window, int width, int height);
 
@@ -137,6 +143,16 @@ int main() {
 
     unsigned int polygonVBO, polygonVAO, polygonEBO;
     unsigned int cutVBO, cutVAO, cutEBO;
+    unsigned int testbuffer, testarray, testindice;
+    static float test[] ={
+            -0.5f, -0.5f,
+            0.0f, 0.5f,
+            0.5f, -0.5f
+    };
+    static float test2[] ={
+            -0.5f, -0.5f,
+            0.0f, 0.5f
+    };
 
     im.init(window, &polygonVertices, &cutVertices, &polygonIndices, &cutIndices);
     // uncomment this call to draw in wireframe polygons.
@@ -228,6 +244,13 @@ int main() {
             //glDrawArrays(GL_TRIANGLES, 0, 6);
             glDrawElements(GL_LINE_LOOP, cutIndices.size(), GL_UNSIGNED_INT, 0);
         }
+        if(im.getIsFilling()){ //Use to fill the polygone, but because of glBindVertexArray I can't implement here the Scan Line Algorithm, even thought the algorithm is written in ImguiSetup.cpp
+            glGenBuffers(1, &testbuffer);
+            glBindBuffer(GL_ARRAY_BUFFER, testbuffer);
+            glBufferData(GL_ARRAY_BUFFER, 6 * sizeof(float) ,test, GL_STATIC_DRAW);
+            glUniform3fv(2, 1, glm::value_ptr(fillColor));
+            glDrawArrays(GL_TRIANGLES, 0, 3); // The bast i can do is to fill the first triangle of the polygone
+        }
         // glBindVertexArray(0); // no need to unbind it every time
         im.update();
         im.lastUpdate();
@@ -241,6 +264,9 @@ int main() {
     glDeleteVertexArrays(1, &polygonVAO);
     glDeleteBuffers(1, &polygonVBO);
     glDeleteBuffers(1, &polygonEBO);
+    /*glDeleteVertexArrays(1, &cutVAO);
+    glDeleteBuffers(1, &cutVBO);
+    glDeleteBuffers(1, &cutEBO);*/
     glDeleteProgram(shaderProgram);
     // glfw: terminate, clearing all previously allocated GLFW resources.
     // ------------------------------------------------------------------

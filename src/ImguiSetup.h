@@ -11,6 +11,7 @@
 #include "Color.h"
 #include "vector"
 #include "Math/Point.h"
+#include "Math/Lca.h"
 
 class ImguiSetup {
 public:
@@ -28,17 +29,24 @@ public:
 	bool getIsWindowTracing();
 	Color getFillColor();
     void clear();
+    bool getIsFilling();
+    void delimit();
+    void fill_inter(float ligne);
+    void draw_line(float ligne);
+    void apply_lca();
 
 
 private:
 	void mainWindow();
 	ImVec4 fillColor = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 	bool isWindowTracing = false;
+    bool isFilling = false;
     std::vector<Point> *_polygonVertices;
     std::vector<Point> *_cutVertices;
     std::vector<unsigned int> *_polygonIndices;
     std::vector<unsigned int> *_cutIndices;
-
+    std::vector<float> LCA_inter;
+    float polygon_xmin,polygon_xmax,polygon_ymin,polygon_ymax;
 
 };
 
