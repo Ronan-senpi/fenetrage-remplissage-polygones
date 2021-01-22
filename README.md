@@ -5,9 +5,14 @@
 - Draw clip window (4 points min - Red)
 - Clip (SutherlandHodgman)
 - Change fill color
-- Scan line filling alogorthim (SLFA)
+- Scan line alogorthim (SLA)
 - Clear viewport
 
+## Developer 
+
+- Dorian GACON - Scan Line Algorithm (SLA)
+- Clément CLERC - OpenGL 
+- Ronan DHERSIGNERIE - SutherlandHodgman
 
 ## Demo
 ### Clipping 
