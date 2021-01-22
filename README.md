@@ -1,7 +1,13 @@
-# Opengl-cpp
- Thirt c++ opengl test
+# fenetrage-remplissage-polygones
 
+## Features : 
+- Draw polygon (4 points min)
+- Draw clip window (4 points min)
+- Clip (SutherlandHodgman)
+- Scan line filling alogorthim (SLFA)
 
+## Usefull links
+[!](.gitmedias\gifs)
 https://github.com/ocornut/imgui
 
 https://stackoverflow.com/questions/45130391/opengl-get-cursor-coordinate-on-mouse-click-in-c
