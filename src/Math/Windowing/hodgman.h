@@ -12,6 +12,4 @@ class hodgman {
 public:
 	static std::vector<Point> SutherlandHodgman(std::vector<Point> subjectPolygon, std::vector<Point> clipPolygon);
 };
-
-
 #endif //FENETRAGE_REMPLISSAGE_POLYGONES_HODGMAN_H

@@ -59,22 +59,27 @@ void ImguiSetup::mainWindow() {
 	//Start : Windowing
 	ImGui::Text("Windowing :");
 	ImGui::Checkbox("Window tracing", &isWindowTracing);
+	// Begin : Clipping
 	if (ImGui::Button("Cut"))
 	{
-
+		//Call SutherlandHodgman
 		std::vector<Point> b = hodgman::SutherlandHodgman(*_polygonVertices, *_cutVertices);
+		//If SutherlandHodgman's result empty, second call for try on other "direction"
 		if (b.size() == 0){
+			// Inverse polygon and cut array
 			std::reverse(_polygonVertices->begin(),_polygonVertices->end());
 			std::reverse(_cutVertices->begin(),_cutVertices->end());
 			b = hodgman::SutherlandHodgman(*_polygonVertices, *_cutVertices);
 		}
-		//clear();
+		//Remove old polygon & cut
 		clear();
+		//Add new one
 		_polygonVertices->insert(_polygonVertices->end(), b.begin(), b.end());
 		for (int i = 0; i < _polygonVertices->size(); ++i) {
 			_polygonIndices->push_back(i);
 		}
 	}
+	//End : Clipping
 	//End : Windowing
 	ImGui::Text("");
 	if (ImGui::Button("Clear")) {

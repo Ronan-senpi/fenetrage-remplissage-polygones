@@ -28,6 +28,4 @@ bool cm::inside(Point &point, Point &clip_edge_point1, Point &clip_edge_point2) 
 	       + (clip_edge_point2.X * clip_edge_point1.Y - clip_edge_point1.X * clip_edge_point2.Y) < 0;
 }
 
-
-
 #endif //FENETRAGE_REMPLISSAGE_POLYGONES_CUSTOMMATH_H
