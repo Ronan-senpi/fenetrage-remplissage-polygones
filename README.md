@@ -1,19 +1,26 @@
 # fenetrage-remplissage-polygones
 
 ## Features : 
-- Draw polygon (4 points min)
-- Draw clip window (4 points min)
+- Draw polygon (4 points min - White)
+- Draw clip window (4 points min - Red)
 - Clip (SutherlandHodgman)
+- Change fill color
 - Scan line filling alogorthim (SLFA)
+- Clear viewport
+
+
+## Demo
+### Clipping 
+![Cliping demo](.gitmedias/gifs/cut.gif)
 
 ## Usefull links
-[!](.gitmedias\gifs)
-https://github.com/ocornut/imgui
 
-https://stackoverflow.com/questions/45130391/opengl-get-cursor-coordinate-on-mouse-click-in-c
+### Imgui
+[Imgui repo](https://github.com/ocornut/imgui)
 
-https://github.com/ocornut/imgui/issues/439
+[Imgui Get started](https://www.youtube.com/watch?v=nVaQuNXueFw)
 
-https://www.youtube.com/watch?v=OsemcM2cvzI
+### OpenGL
+[Mouse coordinate](https://stackoverflow.com/questions/45130391/opengl-get-cursor-coordinate-on-mouse-click-in-c)
 
-https://www.youtube.com/watch?v=nVaQuNXueFw (ImGui in OpenGL)
+[Draw polygon](https://www.youtube.com/watch?v=OsemcM2cvzI)
